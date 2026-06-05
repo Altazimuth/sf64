@@ -480,6 +480,10 @@ s32 Title_GetRankTotalHits(void) {
         for (j = 0; j < rankingRoute; j++) {
             hitCount = gSaveFile.save.data.stats[i][j].hitCount;
             hitCount |= (gSaveFile.save.data.stats[i][j].hitCountOver256 & 1) << 8;
+            // @mod: Add 512 if appropriate. I could do this without branching but I don't much care to do so.
+            if (gSaveFile.save.data.rankingHitCountOver511[i] & (1 << j)) {
+                hitCount |= 512;
+            }
 
             gTotalHitsRanking[i] += hitCount;
 

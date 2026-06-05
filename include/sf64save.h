@@ -49,7 +49,8 @@ typedef struct SaveData {
     /* 0xEA */ u8 unk_EA;
     /* 0xEB */ u8 textLanguage;  // EU Only text language selection
     /* 0xEC */ u8 voiceLanguage; // EU Only voice language selection
-    /* 0xED */ char padEE[0x11];
+    /* 0xED */ u8 rankingHitCountOver511[RANKING_MAX]; // @mod: Add hacky tracking of hit count > 511. Each bit represents each planet in a route.
+    /* 0xF7 */ char padF7[0x7];
 } SaveData; // size = 0xFE
 
 typedef struct {

@@ -1985,6 +1985,10 @@ s32 Map_801A05B4(void) {
             if (gSaveFile.save.data.stats[i][j].hitCountOver256 != 0) {
                 var_a3 += 256;
             }
+            // @mod: Add 512 if appropriate.
+            if (gSaveFile.save.data.rankingHitCountOver511[i] & (1 << j)) {
+                var_a3 += 512;
+            }
             sp30[i] += var_a3;
         }
     }

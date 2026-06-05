@@ -2405,6 +2405,10 @@ void Option_RankingHitCount_Draw(s32 rankIdx, s32 routeIdx, f32 xPos, f32 yPos) 
         gDPSetPrimColor(gMasterDisp++, 0, 0, 255, 255, 0, 255);
         hitCount = (gSaveFile.save.data.stats[rankIdx][routeIdx].hitCountOver256 & 1) << 8;
         hitCount |= gSaveFile.save.data.stats[rankIdx][routeIdx].hitCount;
+        // @mod: Add 512 if appropriate. I could do this without branching but I don't much care to do so.
+        if (gSaveFile.save.data.rankingHitCountOver511[rankIdx] & (1 << routeIdx)) {
+            hitCount |= 512;
+        }
         Graphics_DisplaySmallNumber(xPos + 15.0f - (HUD_CountDigits(hitCount) - 1) * 8, yPos + 24.0f + 1.0f, hitCount);
     }
 }
@@ -4160,6 +4164,7 @@ void Option_Ranking_SaveData(void) {
     u8 rankingLives[11];
     u8 rankingMedal[11];
     PlanetStats planetStats[11][7];
+    u8 rankingHitCountOver511[11] = {0}; // @mod
 
     rankNameEntry[10][0] = D_menu_801B9150[0][0];
     rankNameEntry[10][1] = D_menu_801B9150[1][0];
@@ -4179,6 +4184,12 @@ void Option_Ranking_SaveData(void) {
         planetStats[10][j].hitCountOver256 = 0;
 
         missionHitCount = gMissionHitCount[j];
+
+        // @mod
+        if (missionHitCount > 511) {
+            missionHitCount -= 512;
+            rankingHitCountOver511[10] |= 1 << j;
+        }
 
         if (missionHitCount > 255) {
             missionHitCount -= 256;
@@ -4211,6 +4222,7 @@ void Option_Ranking_SaveData(void) {
         rankingRoute[i] = gSaveFile.save.data.rankingRoute[i];
         rankingLives[i] = gSaveFile.save.data.rankingLives[i];
         rankingMedal[i] = gSaveFile.save.data.rankingMedal[i];
+        rankingHitCountOver511[i] = gSaveFile.save.data.rankingHitCountOver511[i]; // @mod
 
         for (j = 0; j < ROUTE_MAX; j++) {
             planetStats[i][j].hitCount = gSaveFile.save.data.stats[i][j].hitCount;
@@ -4234,6 +4246,7 @@ void Option_Ranking_SaveData(void) {
         gSaveFile.save.data.rankingRoute[i] = rankingRoute[currentRankIdx];
         gSaveFile.save.data.rankingLives[i] = rankingLives[currentRankIdx];
         gSaveFile.save.data.rankingMedal[i] = rankingMedal[currentRankIdx];
+        gSaveFile.save.data.rankingHitCountOver511[i] = rankingHitCountOver511[currentRankIdx]; // @mod
 
         for (j = 0; j < ROUTE_MAX; j++) {
             gSaveFile.save.data.stats[i][j].hitCount = planetStats[currentRankIdx][j].hitCount;

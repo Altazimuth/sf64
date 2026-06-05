@@ -256,6 +256,12 @@ bool Ending_8018DCB4(void) {
         for (j = 0; j < 7; j++) {
             temp4[i] +=
                 gSaveFile.save.data.stats[i][j].hitCount + (gSaveFile.save.data.stats[i][j].hitCountOver256 * 256);
+
+            // @mod: Add 512 if appropriate. I could do this without branching but I don't much care to do so.
+            if (gSaveFile.save.data.rankingHitCountOver511[i] & (1 << j)) {
+                temp4[i] += 512;
+            }
+
             stats[i][0] += gSaveFile.save.data.stats[i][j].peppyAlive & 1;
             stats[i][1] += gSaveFile.save.data.stats[i][j].slippyAlive & 1;
             stats[i][2] += gSaveFile.save.data.stats[i][j].falcoAlive & 1;

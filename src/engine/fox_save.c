@@ -206,3 +206,18 @@ s32 Save_Read(void) {
         return -1;
     }
 }
+
+// @mod: Vanilla sets this former padding byte to 0x03. This mod sets it to 0x00 to show this save is migrated.
+s32 Save_Migrate(void) {
+    s32 i;
+
+    if (gSaveFile.save.data.saveMigrationCheck == 0x03) {
+        for (i = 0; i < RANKING_MAX; i++) {
+            gSaveFile.save.data.rankingHitCountOver511[i] = 0; // This is padding in vanilla.
+        }
+        gSaveFile.save.data.saveMigrationCheck = 0;
+        return Save_Write(); // Write now so we never need to perform this migration agin for this save.
+    }
+
+    return 0;
+}

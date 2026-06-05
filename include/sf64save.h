@@ -73,6 +73,7 @@ typedef struct {
 
 s32 Save_Write(void);
 s32 Save_Read(void);
+s32 Save_Migrate(void); // @mod
 
 void Save_ReadData(void);
 void Save_WriteData(void);

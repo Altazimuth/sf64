@@ -66,6 +66,7 @@ void Game_Initialize(void) {
 #endif
         Save_Write();
     }
+    Save_Migrate(); // @mod: If applicable we need to migrate a save from vanilla SF64 to this hack.
 #endif
     gNextGameStateTimer = 0;
     gBgColor = 0;
@@ -395,6 +396,7 @@ void Game_Update(void) {
 #endif
                     Save_Write();
                 }
+                Save_Migrate(); // @mod: If applicable we need to migrate a save from vanilla SF64 to this hack.
                 gGameState++;
                 Timer_CreateTask(MSEC_TO_CYCLES(1000), Timer_Increment, (s32*) &gGameState, 1);
                 /* fallthrough */

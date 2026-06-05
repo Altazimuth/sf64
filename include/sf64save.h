@@ -49,7 +49,11 @@ typedef struct SaveData {
     /* 0xEA */ u8 unk_EA;
     /* 0xEB */ u8 textLanguage;  // EU Only text language selection
     /* 0xEC */ u8 voiceLanguage; // EU Only voice language selection
-    /* 0xED */ u8 rankingHitCountOver511[RANKING_MAX]; // @mod: Add hacky tracking of hit count > 511. Each bit represents each planet in a route.
+    // @mod: Tracking of hit count > 511. Each bit represents each planet in a route.
+    //       Each byte is an entry in the high score table.
+    //       `rankingHitCountOver511[entry] & (1 << planet)` would be the bit that stores whether or not 512 needs
+    //       adding to a planet's score for a given entry in the high score list.
+    /* 0xED */ u8 rankingHitCountOver511[RANKING_MAX];
     /* 0xF7 */ char padF7[0x7];
 } SaveData; // size = 0xFE
 

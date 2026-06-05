@@ -4164,7 +4164,7 @@ void Option_Ranking_SaveData(void) {
     u8 rankingLives[11];
     u8 rankingMedal[11];
     PlanetStats planetStats[11][7];
-    u8 rankingHitCountOver511[11] = {0}; // @mod
+    u8 rankingHitCountOver511[11] = { 0 }; // @mod: Track planet 512s bits here. See SaveData in sf64save.h for details.
 
     rankNameEntry[10][0] = D_menu_801B9150[0][0];
     rankNameEntry[10][1] = D_menu_801B9150[1][0];
@@ -4222,7 +4222,7 @@ void Option_Ranking_SaveData(void) {
         rankingRoute[i] = gSaveFile.save.data.rankingRoute[i];
         rankingLives[i] = gSaveFile.save.data.rankingLives[i];
         rankingMedal[i] = gSaveFile.save.data.rankingMedal[i];
-        rankingHitCountOver511[i] = gSaveFile.save.data.rankingHitCountOver511[i]; // @mod
+        rankingHitCountOver511[i] = gSaveFile.save.data.rankingHitCountOver511[i]; // @mod: > 511 tracking.
 
         for (j = 0; j < ROUTE_MAX; j++) {
             planetStats[i][j].hitCount = gSaveFile.save.data.stats[i][j].hitCount;
@@ -4246,7 +4246,7 @@ void Option_Ranking_SaveData(void) {
         gSaveFile.save.data.rankingRoute[i] = rankingRoute[currentRankIdx];
         gSaveFile.save.data.rankingLives[i] = rankingLives[currentRankIdx];
         gSaveFile.save.data.rankingMedal[i] = rankingMedal[currentRankIdx];
-        gSaveFile.save.data.rankingHitCountOver511[i] = rankingHitCountOver511[currentRankIdx]; // @mod
+        gSaveFile.save.data.rankingHitCountOver511[i] = rankingHitCountOver511[currentRankIdx]; // @mod: > 511 tracking
 
         for (j = 0; j < ROUTE_MAX; j++) {
             gSaveFile.save.data.stats[i][j].hitCount = planetStats[currentRankIdx][j].hitCount;

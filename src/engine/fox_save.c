@@ -122,7 +122,7 @@ Save gDefaultSave = {
     // EU only voice/text language
     0x09, 0x01,
 
-    // @mod: Ranking hit counter over 511 tracking (changed to all 0)
+    // @mod: Ranking hit counter over 511 tracking (changed to all 0). See SaveData in sf64save.h for details.
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 
     // padding

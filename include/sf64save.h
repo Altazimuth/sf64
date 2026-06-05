@@ -54,7 +54,8 @@ typedef struct SaveData {
     //       `rankingHitCountOver511[entry] & (1 << planet)` would be the bit that stores whether or not 512 needs
     //       adding to a planet's score for a given entry in the high score list.
     /* 0xED */ u8 rankingHitCountOver511[RANKING_MAX];
-    /* 0xF7 */ char padF7[0x7];
+    /* 0xF7 */ u8 saveMigrationCheck; // @mod: Mod sets to 0x00. Vanilla is 0x03. Use to see if save needs migrating.
+    /* 0xF8 */ char padF8[0x6];
 } SaveData; // size = 0xFE
 
 typedef struct {

@@ -125,8 +125,11 @@ Save gDefaultSave = {
     // @mod: Ranking hit counter over 511 tracking (changed to all 0). See SaveData in sf64save.h for details.
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 
+    // @mod: Used to check if a save is vanilla and needs migrating. In vanilla it's 0x03. This mod sets it to 0x00.
+    0x00,
+
     // padding
-    0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
+    0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
 };
 // clang-format on
 
@@ -186,6 +189,17 @@ s32 Save_Read(void) {
 
     if (gSaveFile.save.checksum == Save_Checksum(&gSaveFile.save)) {
         PRINTF("ＥＥＰＲＯＭ ＲＯＭ［1］ 正常\n");
+
+        // @mod: Vanilla sets this former padding byte to 0x03. This mod sets it to 0x00 to show this save is migrated.
+        if (gSaveFile.save.data.saveMigrationCheck == 0x03) {
+            for (i = 0; i < RANKING_MAX; i++) {
+                gSaveFile.save.data.rankingHitCountOver511[i] = 0; // This is padding in vanilla.
+            }
+            gSaveFile.save.data.saveMigrationCheck = 0;
+
+            Save_Write(); // Write now so we never need to perform this migration agin for this save.
+        }
+
         return 0;
     } else {
         PRINTF("ＥＥＰＲＯＭ ＲＯＭ［０］ ＆ ＲＯＭ［1］ 異常\n");
